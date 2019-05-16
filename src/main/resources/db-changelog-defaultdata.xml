@@ -18,6 +18,13 @@
 			<column name="first_name" value="Johnny" />
 			<column name="last_name" value="Cash" />
 		</insert>
+
+		<insert tableName="spending">
+			<column name="description" value="Czynsz" />
+			<column name="event_date" value="2019-05-13" />
+			<column name="value" value="825.23" />
+			<column name="category" value="HOUSE" />
+		</insert>
 	</changeSet>
 
 </databaseChangeLog>
