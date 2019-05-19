@@ -18,7 +18,7 @@ import pl.macpradz.setup.model.SpendingCategory;
 public class Spending {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String description;
     private Date eventDate;
     private BigDecimal value;
@@ -28,11 +28,11 @@ public class Spending {
     public Spending() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public Spending setId(long id) {
+    public Spending setId(Long id) {
         this.id = id;
         return this;
     }

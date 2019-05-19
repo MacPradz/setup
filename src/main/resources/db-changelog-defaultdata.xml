@@ -25,6 +25,18 @@
 			<column name="value" value="825.23" />
 			<column name="category" value="HOUSE" />
 		</insert>
+
+		<insert tableName="monthly_report">
+			<column name="description" value="dużo wydatków" />
+			<column name="report_date" value="2019-04-01" />
+			<column name="total_expenses" value="825.23" />
+		</insert>
+
+		<insert tableName="monthly_report">
+			<column name="description" value="dużo wydatków2" />
+			<column name="report_date" value="2019-04-02" />
+			<column name="total_expenses" value="2825.23" />
+		</insert>
 	</changeSet>
 
 </databaseChangeLog>

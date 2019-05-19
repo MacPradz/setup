@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.macpradz.setup.entity.Spending;
 import pl.macpradz.setup.entity.User;
 import pl.macpradz.setup.model.SpendingCategory;
+import pl.macpradz.setup.repository.MonthlyReportRepository;
 import pl.macpradz.setup.repository.SpendingJpaRepository;
 import pl.macpradz.setup.repository.UserJdbcDao;
 
@@ -21,11 +22,17 @@ public class SetupApplication implements CommandLineRunner {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
 	private UserJdbcDao userJdbcDao;
+	private SpendingJpaRepository spendingJpaRepository;
+	private MonthlyReportRepository monthlyReportRepository;
 
 	@Autowired
-	private SpendingJpaRepository spendingJpaRepository;
+    public SetupApplication(UserJdbcDao userJdbcDao, SpendingJpaRepository spendingJpaRepository,
+            MonthlyReportRepository monthlyReportRepository) {
+        this.userJdbcDao = userJdbcDao;
+        this.spendingJpaRepository = spendingJpaRepository;
+        this.monthlyReportRepository = monthlyReportRepository;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SetupApplication.class, args);
@@ -53,5 +60,11 @@ public class SetupApplication implements CommandLineRunner {
         logger.info("removed new guy -> {}");
         spendingJpaRepository.deleteById(insert.getId());
 
+        logger.info("all reports -> {}", monthlyReportRepository.findById(1L));
+        monthlyReportRepository.deleteById(1L);
+
+        monthlyReportRepository.transactionWorksBehindTheHood();
+        monthlyReportRepository.useFlushDetachAndClear();
+        monthlyReportRepository.useFlushRefresh();
     }
 }
