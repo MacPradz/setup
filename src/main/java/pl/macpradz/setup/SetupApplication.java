@@ -2,6 +2,8 @@ package pl.macpradz.setup;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import pl.macpradz.setup.entity.MonthlyReport;
 import pl.macpradz.setup.entity.Spending;
 import pl.macpradz.setup.entity.User;
 import pl.macpradz.setup.model.SpendingCategory;
@@ -66,5 +69,11 @@ public class SetupApplication implements CommandLineRunner {
         monthlyReportRepository.transactionWorksBehindTheHood();
         monthlyReportRepository.useFlushDetachAndClear();
         monthlyReportRepository.useFlushRefresh();
+        List<MonthlyReport> monthlyReports = monthlyReportRepository.findAll();
+        System.out.println(monthlyReports.stream().map(MonthlyReport::getDescription).collect(Collectors.joining()));
+        List<MonthlyReport> monthlyReports2 = monthlyReportRepository.findAllWhereExpansesGT1000();
+        System.out.println(monthlyReports2.stream().map(MonthlyReport::getDescription).collect(Collectors.joining()));
+        List<MonthlyReport> monthlyReports3 = monthlyReportRepository.findAllWhereExpansesBetween2(1000, 3000);
+        System.out.println(monthlyReports3.stream().map(MonthlyReport::getDescription).collect(Collectors.joining()));
     }
 }

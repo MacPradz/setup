@@ -2,10 +2,13 @@ package pl.macpradz.setup.repository;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,5 +74,30 @@ public class MonthlyReportRepository {
 
         monthlyReport.setDescription("to zostanie olane bo przywracam stan z bazy - sflushowany");
         em.refresh(monthlyReport);
+    }
+
+    public List<MonthlyReport> findAll() {
+        return em.createNamedQuery("get_all", MonthlyReport.class).getResultList();
+    }
+
+    public List<MonthlyReport> findAllWhereExpansesGT1000() {
+        return em.createNamedQuery("get_where_expenses_gt_1000", MonthlyReport.class).getResultList();
+    }
+
+    public List<MonthlyReport> findAllWhereExpansesBetween(int botLimit, int topLimit) {
+        Query query = em.createNativeQuery("select * from monthly_report mr where total_expenses < ? and "
+                        + "total_expenses > ?",
+                MonthlyReport.class);
+        query.setParameter(1, topLimit);
+        query.setParameter(2, botLimit);
+        return query.getResultList();
+    }
+
+    public List<MonthlyReport> findAllWhereExpansesBetween2(int botLimit, int topLimit) {
+        Query query = em.createNativeQuery("select * from monthly_report mr where total_expenses < :topLimit and total_expenses > :botLimit",
+                MonthlyReport.class);
+        query.setParameter("topLimit", topLimit);
+        query.setParameter("botLimit", botLimit);
+        return query.getResultList();
     }
 }

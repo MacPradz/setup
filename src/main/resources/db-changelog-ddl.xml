@@ -44,6 +44,8 @@
 			<column name="description" type="VARCHAR(512)" />
 			<column name="report_date" type="TIMESTAMP" />
 			<column name="total_expenses" type="DECIMAL" />
+			<column name="last_update_date" type="TIMESTAMP" />
+			<column name="created_date" type="TIMESTAMP" />
 		</createTable>
 	</changeSet>
 </databaseChangeLog>
